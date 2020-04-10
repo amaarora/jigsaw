@@ -4,10 +4,17 @@ title: About Me
 permalink: /about/
 ---
 
-This is where you put the contents of your *About* page. Like all your pages, it's in [Markdown](https://guides.github.com/features/mastering-markdown/) format.
+<div class="img-div" markdown="0">
+  <image src="/images/AmanArora.png"/>
+  <br />
+</div>
 
-This website is powered by **[fastpages](https://github.com/fastai/fastpages)** [^1].
+I am a Data Scientist at [CoreLogic Australia](https://www.corelogic.com.au/) where I spend a lot of my time building SOTA algorithms to predict house and rental prices across all of Australia and NZ. At CoreLogic, I have been responsible for building the [Rental AVM](https://www.corelogic.com.au/products/rental-avm) product from scratch for over 10 million properties which led to an overall 8% increase in predictions nationally. 
 
+I have a passion for deep learning, thanks to [Jeremy Howard](https://twitter.com/jeremyphoward) who made it possible for me through [fast.ai](fast.ai) to begin my journey in this space around 1.5 years ago.
 
+I am self taught, and an ardent follower of and small contributor to the [fast.ai](fast.ai) course. Through this course itself, I have been able to pickup Python and it has made possible for me to do my own research. Something, I would have not thought of being able to do when I first started. I believe I still have a lot to learn and commit myself to learning something new every day.  
 
-[^1]:a blogging platform that natively supports Jupyter notebooks in addition to other formats.
+I also fimly believe in giving back to the community and in that attempt, also run a meetup group called [Applied Data Science](https://www.meetup.com/Applied-Data-Science-Sydney/). The focus in this blog is on writing code as much as it is on explaining the concept in theory. 
+
+If you feel that any of these ideas can be expressed in a better way, I am very happy to receive constructive feedback. Please feel free to reach out to me via [twitter](https://twitter.com/amaarora).
