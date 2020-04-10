@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Jigsaw Multilingual Toxic Comment Classification | fastpages</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Jigsaw Multilingual Toxic Comment Classification" />
+<meta name="author" content="Aman Arora" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Note that this blogpost makes use of datasets that may be considered profane, vulgar, or offensive." />
+<meta property="og:description" content="Note that this blogpost makes use of datasets that may be considered profane, vulgar, or offensive." />
+<link rel="canonical" href="https://amaarora.github.io/jigsaw/2020/04/10/JigsawIntro.html" />
+<meta property="og:url" content="https://amaarora.github.io/jigsaw/2020/04/10/JigsawIntro.html" />
+<meta property="og:site_name" content="fastpages" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-10T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Aman Arora"},"description":"Note that this blogpost makes use of datasets that may be considered profane, vulgar, or offensive.","@type":"BlogPosting","headline":"Jigsaw Multilingual Toxic Comment Classification","url":"https://amaarora.github.io/jigsaw/2020/04/10/JigsawIntro.html","datePublished":"2020-04-10T00:00:00-05:00","dateModified":"2020-04-10T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://amaarora.github.io/jigsaw/2020/04/10/JigsawIntro.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/jigsaw/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://amaarora.github.io/jigsaw/feed.xml" title="fastpages" /><link rel="shortcut icon" type="image/x-icon" href="/jigsaw/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Jigsaw Multilingual Toxic Comment Classification | fastpages</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Jigsaw Multilingual Toxic Comment Classification" />
+<meta name="author" content="Aman Arora" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Note that this blogpost makes use of datasets that may be considered profane, vulgar, or offensive." />
+<meta property="og:description" content="Note that this blogpost makes use of datasets that may be considered profane, vulgar, or offensive." />
+<link rel="canonical" href="https://amaarora.github.io/jigsaw/2020/04/10/JigsawIntro.html" />
+<meta property="og:url" content="https://amaarora.github.io/jigsaw/2020/04/10/JigsawIntro.html" />
+<meta property="og:site_name" content="fastpages" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-10T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Aman Arora"},"description":"Note that this blogpost makes use of datasets that may be considered profane, vulgar, or offensive.","@type":"BlogPosting","headline":"Jigsaw Multilingual Toxic Comment Classification","url":"https://amaarora.github.io/jigsaw/2020/04/10/JigsawIntro.html","datePublished":"2020-04-10T00:00:00-05:00","dateModified":"2020-04-10T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://amaarora.github.io/jigsaw/2020/04/10/JigsawIntro.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://amaarora.github.io/jigsaw/feed.xml" title="fastpages" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/jigsaw/">fastpages</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/jigsaw/about/">About Me</a><a class="page-link" href="/jigsaw/search/">Search</a><a class="page-link" href="/jigsaw/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Jigsaw Multilingual Toxic Comment Classification</h1><p class="page-description">Note that this blogpost makes use of datasets that may be considered profane, vulgar, or offensive.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-04-10T00:00:00-05:00" itemprop="datePublished">
+        Apr 10, 2020
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Aman Arora</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/amaarora/jigsaw/tree/master/_notebooks/2020-04-10-JigsawIntro.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/jigsaw/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/amaarora/jigsaw/master?filepath=_notebooks%2F2020-04-10-JigsawIntro.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/jigsaw/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/amaarora/jigsaw/blob/master/_notebooks/2020-04-10-JigsawIntro.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/jigsaw/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#What's-so-interesting-about-this-competition?">What&#39;s so interesting about this competition? </a></li>
+<li class="toc-entry toc-h2"><a href="#So-what-do-we-do-then?">So what do we do then? </a></li>
+<li class="toc-entry toc-h2"><a href="#Could-we-use-translation?">Could we use translation? </a></li>
+<li class="toc-entry toc-h2"><a href="#Any-other-ideas?">Any other ideas? </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-04-10-JigsawIntro.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># from transformers import XLMRobertaConfig, XLMRobertaTokenizer, XLMRobertaModel</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is a really interesting competition - and in this competition I want to learn as well as teach - learn by experimenting new techniques and teach by showing the how to do the experiments. I hope you find this blogpost interesting because each week, I will perform a new experiment and get an intuition on what works and what doesn't work.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="What's-so-interesting-about-this-competition?">
+<a class="anchor" href="#What's-so-interesting-about-this-competition?" aria-hidden="true"><span class="octicon octicon-link"></span></a>What's so interesting about this competition?<a class="anchor-link" href="#What's-so-interesting-about-this-competition?"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Well, firstly, the training data is only in <code>En</code> while the valid and test set contain multiple languages.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trn</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"./jigsaw-toxic-comment-train.csv"</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">'comment_text'</span><span class="p">,</span> <span class="s1">'toxic'</span><span class="p">])</span>
+<span class="n">trn</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>comment_text</th>
+      <th>toxic</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Explanation\nWhy the edits made under my usern...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>D'aww! He matches this background colour I'm s...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Hey man, I'm really not trying to edit war. It...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>"\nMore\nI can't make any real suggestions on ...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>You, sir, are my hero. Any chance you remember...</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here is a list of 5 toxic comments in the train set:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">trn</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"toxic==1"</span><span class="p">)</span><span class="o">.</span><span class="n">comment_text</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>['COCKSUCKER BEFORE YOU PISS AROUND ON MY WORK',
+ 'Hey... what is it..\n@ | talk .\nWhat is it... an exclusive group of some WP TALIBANS...who are good at destroying, self-appointed purist who GANG UP any one who asks them questions abt their ANTI-SOCIAL and DESTRUCTIVE (non)-contribution at WP?\n\nAsk Sityush to clean up his behavior than issue me nonsensical warnings...',
+ "Bye! \n\nDon't look, come or think of comming back! Tosser.",
+ "You are gay or antisemmitian? \n\nArchangel WHite Tiger\n\nMeow! Greetingshhh!\n\nUh, there are two ways, why you do erased my comment about WW2, that holocaust was brutally slaying of Jews and not gays/Gypsys/Slavs/anyone...\n\n1 - If you are anti-semitian, than shave your head bald and go to the skinhead meetings!\n\n2 - If you doubt words of the Bible, that homosexuality is a deadly sin, make a pentagram tatoo on your forehead go to the satanistic masses with your gay pals!\n\n3 - First and last warning, you fucking gay - I won't appreciate if any more nazi shwain would write in my page! I don't wish to talk to you anymore!\n\nBeware of the Dark Side!",
+ 'FUCK YOUR FILTHY MOTHER IN THE ASS, DRY!']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So, the training set only consists of <code>comment_text</code> field in <code>English</code> and <code>toxic</code> field that represents whether the comment is toxic or not.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">valid</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'./validation.csv'</span><span class="p">)</span>
+<span class="n">valid</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>comment_text</th>
+      <th>lang</th>
+      <th>toxic</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>Este usuario ni siquiera llega al rango de    ...</td>
+      <td>es</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>Il testo di questa voce pare esser scopiazzato...</td>
+      <td>it</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>Vale. Sólo expongo mi pasado. Todo tiempo pasa...</td>
+      <td>es</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>Bu maddenin alt başlığı olarak  uluslararası i...</td>
+      <td>tr</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>Belçika nın şehirlerinin yanında ilçe ve belde...</td>
+      <td>tr</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="n">valid</span><span class="o">.</span><span class="n">lang</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{'es', 'it', 'tr'}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>The valid set consists of 'es' (ISO code for Spanish), 'it' (ISO code for Italian) and 'tr' (ISO code for Turkish)</strong>. You can find the ISO codes for reference <a href="https://www.andiamo.co.uk/resources/iso-language-codes/">here</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now what about the test set?</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'./test.csv'</span><span class="p">)</span>
+<span class="n">test</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>content</th>
+      <th>lang</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>Doctor Who adlı viki başlığına 12. doctor olar...</td>
+      <td>tr</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>Вполне возможно, но я пока не вижу необходимо...</td>
+      <td>ru</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>Quindi tu sei uno di quelli   conservativi  , ...</td>
+      <td>it</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>Malesef gerçekleştirilmedi ancak şöyle bir şey...</td>
+      <td>tr</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>:Resim:Seldabagcan.jpg resminde kaynak sorunu ...</td>
+      <td>tr</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">lang</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{'es', 'fr', 'it', 'pt', 'ru', 'tr'}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>The valid set consists of 'es' (ISO code for Spanish), 'fr' (ISO code for French), 'it' (ISO code for Italian), 'pt' (ISO code for Portuguese, 'ru' (ISO code for Russian)  and 'tr' (ISO code for Turkish)</strong>. You can find the ISO codes for reference <a href="https://www.andiamo.co.uk/resources/iso-language-codes/">here</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Interesting right? So can we train a toxic comment classifier on English and use it on another language? I say "No".</p>
+<p>Why?</p>
+<ul>
+<li>
+<strong>Tokens are different</strong>: The first step of a language model is to create a tokenizer and convert the input text to tokens, how will our model treat two different languages or multiple different languages if it doesn't know how to tokenize them? </li>
+<li>
+<strong>No common embedding represenation</strong>: The tokens are converted to some intermediate representations of some dimension - in case of BERT it's 768, and then the model performs the classification on these intermediate representations. How will our model know which representation to use if it's only trained on English? </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="So-what-do-we-do-then?">
+<a class="anchor" href="#So-what-do-we-do-then?" aria-hidden="true"><span class="octicon octicon-link"></span></a>So what do we do then?<a class="anchor-link" href="#So-what-do-we-do-then?"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Well, we make use of multilingual transformer based models. Recently there has been much research in multilingual models - one model for multiliple languages.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>From what I've read through the Kaggle forums and recent research papers, there are two main multilingual models - one of them by Facebook AI - <a href="https://arxiv.org/abs/1901.07291">XLM</a>, <a href="https://ai.facebook.com/blog/-xlm-r-state-of-the-art-cross-lingual-understanding-through-self-supervision/">XLMR</a> and another one by Google - <a href="https://github.com/google-research/bert/blob/master/multilingual.md">MBert</a> (multilingual bert).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There is a great introduction to this competition using mBert available <a href="https://www.youtube.com/watch?v=vvr_f-X_LaI">here</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>While at the same time there is also much interesting discussion about using XLM-R <a href="https://www.kaggle.com/c/jigsaw-multilingual-toxic-comment-classification/discussion/140254">here</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now which of the two is better - I do not know. BUT, we will found out through expirementation. At the date of writing this blogpost, there are still two more months to go and while at this time I cannot aim to win the competition - I do aim to get a gold medal or at the least implement these new ideas to learn.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Could-we-use-translation?">
+<a class="anchor" href="#Could-we-use-translation?" aria-hidden="true"><span class="octicon octicon-link"></span></a>Could we use translation?<a class="anchor-link" href="#Could-we-use-translation?"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Another idea is to then translate the test set to English and use a mono lingual English model for toxicity classification. A translated version of the test set is available <a href="https://www.kaggle.com/kashnitsky/jigsaw-multilingual-toxic-test-translated">here</a>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">val_translated</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"./jigsaw_miltilingual_valid_translated.csv"</span><span class="p">)</span>
+<span class="n">val_translated</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>comment_text</th>
+      <th>translated</th>
+      <th>lang</th>
+      <th>toxic</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>Este usuario ni siquiera llega al rango de    ...</td>
+      <td>This user does not even make it to the rank of...</td>
+      <td>es</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>Il testo di questa voce pare esser scopiazzato...</td>
+      <td>The text of this entry appears to be like I di...</td>
+      <td>it</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>Vale. Sólo expongo mi pasado. Todo tiempo pasa...</td>
+      <td>It is worth it. Only expose my past. All time ...</td>
+      <td>es</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>Bu maddenin alt başlığı olarak  uluslararası i...</td>
+      <td>Of this article as a sub-heading with maintain...</td>
+      <td>tr</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>Belçika nın şehirlerinin yanında ilçe ve belde...</td>
+      <td>I guess while they're At of the city, district...</td>
+      <td>tr</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">val_translated</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"toxic==1"</span><span class="p">)</span><span class="o">.</span><span class="n">translated</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>["BREED OF IDIOTS!!! You're drunk, your brain???? What is this intrusion????? Your troubles personal risolvetele on your pages (personal)! In addition, I have voted for the cancellation!!! Then go to .....the! ",
+ 'The title should linklenme of pornography. Though critical of the substance that should have a hanging this pervert get more scientific writing.95.7.150.Forty five ',
+ "makes you so disgusting, leave double space?Mpiz (msg) ah, inveve is really nice to have all the paragraphs stuck that you don't know even where start one and ends the other..it is just belloMpiz (msg) is, but the lines so they are all stuck and do not understand a football club. with the double space remaining slightly more spaced out, even at a glance see where finishes one and starts the next.Mpiz (msg) ",
+ "Hello really thought about it, that you are not going to find it?, I told you, I'm tracking, I'm tracking your comments, your insults, your whining, you'll soon know me.",
+ 'Eh excuse me, but She is a communist and illiberal, with all these cancellations! SERGIUS (CATUS NIGER) ']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Above, I have shared 10 translated comments that are toxic. The translated versions of comments do seem to be toxic if you read it in plain English and it is possible that this approach of toxicity classification might work. But, then out training set needs to have the same words for toxic classification too. One approach is to finetune the model on the valid set and use the same API (for translation) on the test set and then make predictions on the test set.</p>
+<blockquote>
+<p>This approach assumes that the translation API used (in this case YANDEX) will not remove the toxicity and that it can mantain a good level of translation accuracy for multiple languages - especially those in the test set.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A downside of this would we that if such a model is served in production - each sentence would have to be translated first before we are able to classify the toxicity on the comment.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_translated</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"./jigsaw_miltilingual_test_translated.csv"</span><span class="p">)</span>
+<span class="n">test_translated</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>content</th>
+      <th>lang</th>
+      <th>translated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>Doctor Who adlı viki başlığına 12. doctor olar...</td>
+      <td>tr</td>
+      <td>Title named Doctor Who wiki 12. doctor has add...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>Вполне возможно, но я пока не вижу необходимо...</td>
+      <td>ru</td>
+      <td>It is possible, but I don't see the need to a...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>Quindi tu sei uno di quelli   conservativi  , ...</td>
+      <td>it</td>
+      <td>Then you're one of those conservative , who wo...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>Malesef gerçekleştirilmedi ancak şöyle bir şey...</td>
+      <td>tr</td>
+      <td>Unfortunately, it was not performed, but had s...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>:Resim:Seldabagcan.jpg resminde kaynak sorunu ...</td>
+      <td>tr</td>
+      <td>:Resim:Seldabagcan.jpg the image of the source...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">test_translated</span><span class="o">.</span><span class="n">translated</span><span class="p">[</span><span class="mi">95</span><span class="p">:</span><span class="mi">100</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>['Hello, Qbert88. I am writing to you because you are in the list of users of Emilia-Romagna, and I wanted to tell you about the next wikiraduno in Bologna from the 11th to the 15th of June 2008. If you have the desire or time to come you will find all the information on the page of the gathering. Xaura (msg) ',
+ "Z have understood nothing... It's supposed to be ironic, and rightly so. Steve Rogers represents all that the Nazis (racist and eugenic) dreaming on the physical plane, but on the moral plane hates everything they represent, and becomes their worst enemy.216.15.41.45 (d) ",
+ "I bet your mother is still working !!! d the other hand, the whores work late !!! I'm sure you're a loser nerd shit behind a computer who likes to make the dick and then go fuck and blocks I'm fucking ugly nerd fucking D",
+ 'Hello Huster, I am a new contributor and I note your change of categorization of the article on the Red Cross of Belgium. What principle has motivated this amendment? Sincerely, C is very clear indeed. I was not happy with this large hierarchy of categories. Thank you, ',
+ 'right|70pxCiao , the page "Template:MinistroEconomiaItaliano" that you wrote, or that you collaborated to write, has been proposed for deletion. If you don\'t want the page deleted, read the rules on the cancellation and join in the discussion . (If the page had already been deleted by mistake , you can contact administrators asking that it be restored.) Kal - El ']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The test set seems to have translated and retained the toxicity too. It is possible that some of the toxic comments were not translated properly while others were.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Any-other-ideas?">
+<a class="anchor" href="#Any-other-ideas?" aria-hidden="true"><span class="octicon octicon-link"></span></a>Any other ideas?<a class="anchor-link" href="#Any-other-ideas?"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Surely translating the test set and making predictions on that will serve as a good benchmark, in fact we will be using this approach to create a benchmark model.</p>
+<p>Personally though I believe that translating every language correctly with high BLEU and mantain toxicity is a harder task then classifying toxicity on these languages.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>For this competition we could have multiple monolingual models for each language that are then used for classification of toxicity. </li>
+<li>We could find multiple datasets outside of the one provided and train/fine-tune a multilingual model to classify for toxicity. </li>
+<li>We could translate the train set to multiple languages and then use that to train a multilingual model. </li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Personally, currently I believe that using approach 1 or approach 2 will work the best. In the next blog, we will create a benchmark using the translated test set. And then we will move on to approach 1 and 2. See you in the next blog!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="amaarora/jigsaw"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/jigsaw/2020/04/10/JigsawIntro.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jigsaw/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/jigsaw/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/jigsaw/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/jigsaw/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/jigsaw/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
