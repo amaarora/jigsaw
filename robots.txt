@@ -1,1 +1,1 @@
-Sitemap: https://amaarora.github.io/fastexplain/sitemap.xml
+Sitemap: https://amaarora.github.io/jigsaw/sitemap.xml
