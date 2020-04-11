@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Jigsaw Benchmark | jigsaw</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Jigsaw Benchmark" />
+<meta name="author" content="Aman Arora" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Benchmark model for Jigsaw Multilingual Toxic Comment Classification." />
+<meta property="og:description" content="Benchmark model for Jigsaw Multilingual Toxic Comment Classification." />
+<link rel="canonical" href="https://amaarora.github.io/jigsaw/2020/04/11/Jigsaw-Benchmark.html" />
+<meta property="og:url" content="https://amaarora.github.io/jigsaw/2020/04/11/Jigsaw-Benchmark.html" />
+<meta property="og:site_name" content="jigsaw" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-11T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Aman Arora"},"description":"Benchmark model for Jigsaw Multilingual Toxic Comment Classification.","@type":"BlogPosting","headline":"Jigsaw Benchmark","url":"https://amaarora.github.io/jigsaw/2020/04/11/Jigsaw-Benchmark.html","datePublished":"2020-04-11T00:00:00-05:00","dateModified":"2020-04-11T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://amaarora.github.io/jigsaw/2020/04/11/Jigsaw-Benchmark.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/jigsaw/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://amaarora.github.io/jigsaw/feed.xml" title="jigsaw" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-158677010-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/jigsaw/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Jigsaw Benchmark | jigsaw</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Jigsaw Benchmark" />
+<meta name="author" content="Aman Arora" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Benchmark model for Jigsaw Multilingual Toxic Comment Classification." />
+<meta property="og:description" content="Benchmark model for Jigsaw Multilingual Toxic Comment Classification." />
+<link rel="canonical" href="https://amaarora.github.io/jigsaw/2020/04/11/Jigsaw-Benchmark.html" />
+<meta property="og:url" content="https://amaarora.github.io/jigsaw/2020/04/11/Jigsaw-Benchmark.html" />
+<meta property="og:site_name" content="jigsaw" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-11T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Aman Arora"},"description":"Benchmark model for Jigsaw Multilingual Toxic Comment Classification.","@type":"BlogPosting","headline":"Jigsaw Benchmark","url":"https://amaarora.github.io/jigsaw/2020/04/11/Jigsaw-Benchmark.html","datePublished":"2020-04-11T00:00:00-05:00","dateModified":"2020-04-11T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://amaarora.github.io/jigsaw/2020/04/11/Jigsaw-Benchmark.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://amaarora.github.io/jigsaw/feed.xml" title="jigsaw" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-158677010-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/jigsaw/">jigsaw</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/jigsaw/about/">About Me</a><a class="page-link" href="/jigsaw/search/">Search</a><a class="page-link" href="/jigsaw/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Jigsaw Benchmark</h1><p class="page-description">Benchmark model for Jigsaw Multilingual Toxic Comment Classification.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-04-11T00:00:00-05:00" itemprop="datePublished">
+        Apr 11, 2020
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Aman Arora</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/amaarora/jigsaw/tree/master/_notebooks/2020-04-11-Jigsaw Benchmark.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/jigsaw/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/amaarora/jigsaw/master?filepath=_notebooks%2F2020-04-11-Jigsaw+Benchmark.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/jigsaw/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/amaarora/jigsaw/blob/master/_notebooks/2020-04-11-Jigsaw Benchmark.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/jigsaw/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Tokenizer">Tokenizer </a></li>
+<li class="toc-entry toc-h2"><a href="#Bert-Model">Bert Model </a></li>
+<li class="toc-entry toc-h2"><a href="#Dataset">Dataset </a></li>
+<li class="toc-entry toc-h2"><a href="#Dataloader">Dataloader </a></li>
+<li class="toc-entry toc-h2"><a href="#Train">Train </a></li>
+<li class="toc-entry toc-h2"><a href="#Predictions">Predictions </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-04-11-Jigsaw Benchmark.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this post we will be looking at creating a benchmark model for <a href="https://www.kaggle.com/c/jigsaw-multilingual-toxic-comment-classification">Jigsaw Multilingual Toxic Comment Classification</a> Kaggle competition.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will be using the wonderful <a href="https://huggingface.co/transformers/">transformers</a> library from Hugging Face and as mentioned in my <a href="https://amaarora.github.io/jigsaw/2020/04/10/JigsawIntro.html">previous post</a> we will be using a translated version of the test dataset to create a benchmark model.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">BertForSequenceClassification</span><span class="p">,</span> <span class="n">BertConfig</span><span class="p">,</span> <span class="n">BertTokenizer</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AdamW</span><span class="p">,</span> <span class="n">get_linear_schedule_with_warmup</span><span class="p">,</span> <span class="n">get_constant_schedule</span>
+<span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/ubuntu/anaconda3/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:517: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/home/ubuntu/anaconda3/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:518: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/home/ubuntu/anaconda3/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:519: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/home/ubuntu/anaconda3/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:520: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/home/ubuntu/anaconda3/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:521: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/home/ubuntu/anaconda3/lib/python3.6/site-packages/tensorflow/python/framework/dtypes.py:526: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO:root:test
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Tokenizer">
+<a class="anchor" href="#Tokenizer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tokenizer<a class="anchor-link" href="#Tokenizer"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We create a very basic <code>Tokenizer</code> class that creates a <code>BertTokenizer</code> from a pretrained multilingual model. The multilingual model that we will be using in this benchmark model is <code>bert-base-multilingual-cased</code>. We also write a <code>__call__</code> method inside the Class which calls the <code>encode_plus</code> function on the <code>BertTokenizer</code> that returns a dictionary of <code>input_ids</code>, <code>token_type_ids</code> and <code>attention_mask</code> that are all fed to <code>Bert</code> model.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Tokenizer</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">BertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">encode_plus</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tok</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s1">'bert-base-multilingual-cased'</span><span class="p">)</span>
+<span class="n">tok</span><span class="p">(</span><span class="s2">"Hello, how are you?"</span><span class="p">,</span> <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO:transformers.tokenization_utils:loading file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-cased-vocab.txt from cache at /home/ubuntu/.cache/torch/transformers/96435fa287fbf7e469185f1062386e05a075cadbf6838b74da22bf64b080bc32.99bcd55fc66f4f3360bc49ba472b940b8dcf223ea6a345deb969d607ca900729
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{'input_ids': [101, 31178, 117, 14796, 10301, 13028, 136, 102],
+ 'token_type_ids': [0, 0, 0, 0, 0, 0, 0, 0],
+ 'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1]}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Bert-Model">
+<a class="anchor" href="#Bert-Model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bert Model<a class="anchor-link" href="#Bert-Model"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Again, we create a <code>BertModel</code> class that is a thin wrapper around the <code>BertForSequenceClassification</code> class from Hugging Face and we update the final classifier layer to have only 1 final output because this a binary classification problem. We also update the <code>__getattr__</code> method such that any lookup for an attribute that is not present in the <code>BertModel</code> class is passed on to <code>self.model</code> ie., to <code>BertForSequenceClassification</code>. This is done such that we still keep all the functionality that is already available.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">BertModel</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">no</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">classifier</span><span class="o">.</span><span class="n">out_features</span> <span class="o">!=</span> <span class="n">no</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">768</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">'target'</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">'target'</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">BertModel</span><span class="p">(</span><span class="s1">'bert-base-multilingual-cased'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO:transformers.configuration_utils:loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-cased-config.json from cache at /home/ubuntu/.cache/torch/transformers/45629519f3117b89d89fd9c740073d8e4c1f0a70f9842476185100a8afe715d1.893eae5c77904d1e9175faf98909639d3eb20cc7e13e2be395de9a0d8a0dad52
+INFO:transformers.configuration_utils:Model config BertConfig {
+  "_num_labels": 2,
+  "architectures": [
+    "BertForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "bad_words_ids": null,
+  "bos_token_id": null,
+  "decoder_start_token_id": null,
+  "directionality": "bidi",
+  "do_sample": false,
+  "early_stopping": false,
+  "eos_token_id": null,
+  "finetuning_task": null,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "id2label": {
+    "0": "LABEL_0",
+    "1": "LABEL_1"
+  },
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "is_decoder": false,
+  "is_encoder_decoder": false,
+  "label2id": {
+    "LABEL_0": 0,
+    "LABEL_1": 1
+  },
+  "layer_norm_eps": 1e-12,
+  "length_penalty": 1.0,
+  "max_length": 20,
+  "max_position_embeddings": 512,
+  "min_length": 0,
+  "model_type": "bert",
+  "no_repeat_ngram_size": 0,
+  "num_attention_heads": 12,
+  "num_beams": 1,
+  "num_hidden_layers": 12,
+  "num_return_sequences": 1,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "output_past": true,
+  "pad_token_id": 0,
+  "pooler_fc_size": 768,
+  "pooler_num_attention_heads": 12,
+  "pooler_num_fc_layers": 3,
+  "pooler_size_per_head": 128,
+  "pooler_type": "first_token_transform",
+  "prefix": null,
+  "pruned_heads": {},
+  "repetition_penalty": 1.0,
+  "task_specific_params": null,
+  "temperature": 1.0,
+  "top_k": 50,
+  "top_p": 1.0,
+  "torchscript": false,
+  "type_vocab_size": 2,
+  "use_bfloat16": false,
+  "vocab_size": 119547
+}
+
+INFO:transformers.modeling_utils:loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-cased-pytorch_model.bin from cache at /home/ubuntu/.cache/torch/transformers/5b5b80054cd2c95a946a8e0ce0b93f56326dff9fbda6a6c3e02de3c91c918342.7131dcb754361639a7d5526985f880879c9bfd144b65a0bf50590bddb7de9059
+INFO:transformers.modeling_utils:Weights of BertForSequenceClassification not initialized from pretrained model: ['classifier.weight', 'classifier.bias']
+INFO:transformers.modeling_utils:Weights from pretrained model not used in BertForSequenceClassification: ['cls.predictions.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.dense.bias', 'cls.predictions.decoder.weight', 'cls.seq_relationship.weight', 'cls.seq_relationship.bias', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.LayerNorm.bias']
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's do a quick test to make sure that our model works. Currently the outputs are not fine-tuned for a toxic classification task and we will have to train the network for the target task to have the correct outputs. But it is good to know that we can call the model and it seems to be spitting out some outputs. It is good to have these tiny tests to make sure that what we have done so far works.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">input_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">tok</span><span class="p">(</span><span class="s2">"Hello, my dog is cute"</span><span class="p">,</span> <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="s1">'input_ids'</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Batch size 1</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Batch size 1</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span>
+<span class="n">outputs</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(tensor([[-0.1491]], grad_fn=&lt;AddmmBackward&gt;),)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Dataset">
+<a class="anchor" href="#Dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset<a class="anchor-link" href="#Dataset"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally we have to create a Dataset that will then be used to create <code>DataLoader</code> which will be used for training. We use the <code>valid_translated</code> file for training - the reason why we are not using the <code>train.csv</code> file is because the test set and the valid set were translated by using the Yandex API. If we use the train file, then the similarity of words between valid and train will be different (this is my assumption) and training directly on the validation file should work. At least, this is my understanding.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"./jigsaw_miltilingual_valid_translated.csv"</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">'translated'</span><span class="p">,</span> <span class="s1">'toxic'</span><span class="p">])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>translated</th>
+      <th>toxic</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>This user does not even make it to the rank of...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>The text of this entry appears to be like I di...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>It is worth it. Only expose my past. All time ...</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Of this article as a sub-heading with maintain...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I guess while they're At of the city, district...</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We create a simple <code>BertDataset</code> class that returns a dictionary containing the <code>targets</code> if the dataset is in training otherwise it doesn't return the targets. We add this custom behavior such that the same class can be used to create a train and test dataset. Rest of the methods are pretty simple - we initialize our tokenizer, in <code>__getitem__</code> tokenize the <code>ith</code> row of dataframe and return it along with <code>attention_mask</code>, <code>token_type_ids</code> and maybe <code>target</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>One thing that we also do is to pad the sequences, we do this so that we can collate and run the model as a batch. If the sequence lengths are the same, then they can be concatenated and we can make the call to a model in a batch.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">BertDataset</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">csv_path</span><span class="p">,</span> <span class="n">usecols</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="s1">'bert-base-multilingual-cased'</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">textcol</span><span class="o">=</span><span class="s1">'translated'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">usecols</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">usecols</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tok</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_len</span> <span class="o">=</span> <span class="n">max_len</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">textcol</span> <span class="o">=</span> <span class="n">textcol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="o">=</span> <span class="n">train</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="n">comment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">textcol</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">:</span> <span class="n">target</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">toxic</span>
+    
+        <span class="c1"># encode comment</span>
+        <span class="n">t_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tok</span><span class="p">(</span><span class="n">comment</span><span class="p">,</span> <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_len</span><span class="p">)</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">t_out</span><span class="p">[</span><span class="s1">'input_ids'</span><span class="p">]</span>
+        <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">t_out</span><span class="p">[</span><span class="s1">'token_type_ids'</span><span class="p">]</span>
+        <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">t_out</span><span class="p">[</span><span class="s1">'attention_mask'</span><span class="p">]</span>
+
+        <span class="c1"># pad sequences </span>
+        <span class="n">padding_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_len</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">input_ids</span> <span class="o">+</span> <span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">padding_length</span><span class="p">)</span>
+        <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">attention_mask</span> <span class="o">+</span> <span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">padding_length</span><span class="p">)</span>
+        <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">token_type_ids</span> <span class="o">+</span> <span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">padding_length</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">'input_ids'</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">),</span>
+            <span class="s1">'attention_mask'</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">attention_mask</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">),</span>
+            <span class="s1">'token_type_ids'</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">token_type_ids</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">),</span>
+            <span class="s1">'target'</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="p">}</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="s1">'input_ids'</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">),</span>
+            <span class="s1">'attention_mask'</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">attention_mask</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">),</span>
+            <span class="s1">'token_type_ids'</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">token_type_ids</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">),</span>
+        <span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">BertDataset</span><span class="p">(</span><span class="n">csv_path</span><span class="o">=</span><span class="s2">"./jigsaw_miltilingual_valid_translated.csv"</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">'translated'</span><span class="p">,</span> <span class="s1">'toxic'</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO:transformers.tokenization_utils:loading file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-cased-vocab.txt from cache at /home/ubuntu/.cache/torch/transformers/96435fa287fbf7e469185f1062386e05a075cadbf6838b74da22bf64b080bc32.99bcd55fc66f4f3360bc49ba472b940b8dcf223ea6a345deb969d607ca900729
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Dataloader">
+<a class="anchor" href="#Dataloader" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataloader<a class="anchor-link" href="#Dataloader"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally we create a <code>dataloader</code>. This works because we padded the sequences inside our dataset. If we had not paded the sequences the <code>dataloader</code> would not have been able to collate the sequences due to different sequence lengths and thrown an error.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's do a quick test to make sure that the dataloader works.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># make sure dataloader works</span>
+<span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">dataloader</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{'input_ids': tensor([[  101, 10747, 29115,  ...,     0,     0,     0],
+         [  101, 10117, 15541,  ...,     0,     0,     0],
+         [  101, 10377, 10124,  ...,     0,     0,     0],
+         [  101, 12610, 10531,  ...,     0,     0,     0]]),
+ 'attention_mask': tensor([[1, 1, 1,  ..., 0, 0, 0],
+         [1, 1, 1,  ..., 0, 0, 0],
+         [1, 1, 1,  ..., 0, 0, 0],
+         [1, 1, 1,  ..., 0, 0, 0]]),
+ 'token_type_ids': tensor([[0, 0, 0,  ..., 0, 0, 0],
+         [0, 0, 0,  ..., 0, 0, 0],
+         [0, 0, 0,  ..., 0, 0, 0],
+         [0, 0, 0,  ..., 0, 0, 0]]),
+ 'target': tensor([0., 0., 1., 0.])}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(tensor([[-0.0938],
+         [-0.1023],
+         [-0.0882],
+         [-0.1240]], grad_fn=&lt;AddmmBackward&gt;),)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Train">
+<a class="anchor" href="#Train" aria-hidden="true"><span class="octicon octicon-link"></span></a>Train<a class="anchor-link" href="#Train"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, we create a <code>loss_fn</code> that will be used to generate loss between outputs and inputs.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">loss_fn</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">BCEWithLogitsLoss</span><span class="p">()(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We also create a list of optimizer with and without <code>weight_decay</code> that we will be passed to the <code>Optimizer</code> - so we create two param groups.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">param_optimizer</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">())</span>
+<span class="n">no_decay</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'bias'</span><span class="p">,</span> <span class="s1">'LayerNorm.bias'</span><span class="p">,</span> <span class="s1">'LayerNorm.weight'</span><span class="p">]</span>
+<span class="n">optimizer_grouped_parameters</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s1">'params'</span><span class="p">:</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">param_optimizer</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">nd</span> <span class="ow">in</span> <span class="n">n</span> <span class="k">for</span> <span class="n">nd</span> <span class="ow">in</span> <span class="n">no_decay</span><span class="p">)],</span> <span class="s1">'weight_decay'</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">'params'</span><span class="p">:</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">param_optimizer</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">nd</span> <span class="ow">in</span> <span class="n">n</span> <span class="k">for</span> <span class="n">nd</span> <span class="ow">in</span> <span class="n">no_decay</span><span class="p">)],</span> <span class="s1">'weight_decay'</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">}]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_train_steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span> <span class="o">/</span> <span class="mi">64</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally we initialize our <code>Optimizer</code> and <code>Scheduler</code> and initialize <code>device</code> as <code>cuda</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">AdamW</span><span class="p">(</span><span class="n">optimizer_grouped_parameters</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">3e-5</span><span class="p">)</span>
+<span class="n">scheduler</span> <span class="o">=</span> <span class="n">get_linear_schedule_with_warmup</span><span class="p">(</span>
+    <span class="n">optimizer</span><span class="p">,</span>
+    <span class="n">num_warmup_steps</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">num_training_steps</span><span class="o">=</span><span class="n">num_train_steps</span>
+<span class="p">)</span>
+<span class="n">device</span> <span class="o">=</span> <span class="s1">'cuda'</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">'cuda'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Below is a very basic training loop since this is a benchmark model.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">bi</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)):</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s2">"input_ids"</span><span class="p">]</span>
+        <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s2">"attention_mask"</span><span class="p">]</span>
+        <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s2">"token_type_ids"</span><span class="p">]</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s2">"target"</span><span class="p">]</span>
+
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">input_ids</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">attention_mask</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">token_type_ids</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span>
+            <span class="n">input_ids</span><span class="o">=</span><span class="n">input_ids</span><span class="p">,</span>
+            <span class="n">attention_mask</span><span class="o">=</span><span class="n">attention_mask</span><span class="p">,</span>
+            <span class="n">token_type_ids</span><span class="o">=</span><span class="n">token_type_ids</span>
+        <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">scheduler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">scheduler</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+
+
+
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Predictions">
+<a class="anchor" href="#Predictions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Predictions<a class="anchor-link" href="#Predictions"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now once the model is trained we are ready to make predictions, we create a test dataset with the <code>jigsaw_miltilingual_test_translated.csv</code> file and make predictions on this file.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_dataset</span> <span class="o">=</span> <span class="n">BertDataset</span><span class="p">(</span><span class="n">csv_path</span><span class="o">=</span><span class="s2">"./jigsaw_miltilingual_test_translated.csv"</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">'translated'</span><span class="p">],</span> <span class="n">textcol</span><span class="o">=</span><span class="s1">'translated'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO:transformers.tokenization_utils:loading file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-cased-vocab.txt from cache at /home/ubuntu/.cache/torch/transformers/96435fa287fbf7e469185f1062386e05a075cadbf6838b74da22bf64b080bc32.99bcd55fc66f4f3360bc49ba472b940b8dcf223ea6a345deb969d607ca900729
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Below is a very basic prediction test loop that is a copy of the training loop without the <code>loss.backward()</code> and with a <code>torch.no_grad</code> to save GPU memory because during testing we are not worried about the gradients.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>    
+    <span class="k">for</span> <span class="n">bi</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">)):</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s2">"input_ids"</span><span class="p">]</span>
+        <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s2">"attention_mask"</span><span class="p">]</span>
+        <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s2">"token_type_ids"</span><span class="p">]</span>
+
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">input_ids</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">attention_mask</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">token_type_ids</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span>
+            <span class="n">input_ids</span><span class="o">=</span><span class="n">input_ids</span><span class="p">,</span>
+            <span class="n">attention_mask</span><span class="o">=</span><span class="n">attention_mask</span><span class="p">,</span>
+            <span class="n">token_type_ids</span><span class="o">=</span><span class="n">token_type_ids</span>
+        <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">outputs_np</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">preds</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">outputs_np</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We take a sigmoid to convert the predictions to range (0,1).</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_preds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">preds</span><span class="p">))</span>
+<span class="n">_preds</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Size([63812, 1])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_preds</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([0.0161, 0.0169, 0.4494,  ..., 0.2997, 0.0194, 0.0184])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">submission</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"./sample_submission.csv"</span><span class="p">)</span>
+<span class="n">submission</span><span class="p">[</span><span class="s1">'toxic'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_preds</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+<span class="n">submission</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"submission.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we can simply update this model to Kaggle Kernel and make predictions on the competition.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s1">'./first.bin'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I have created a basic benchmark kernel <a href="https://www.kaggle.com/aroraaman/first-jigsaw-inference">here</a> and we get a score of <code>0.8808</code> on this benchmark model which is trained on very little data in much less time. This is pretty encouraging.</p>
+<p>More to come in the next blogposts!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="amaarora/jigsaw"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/jigsaw/2020/04/11/Jigsaw-Benchmark.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jigsaw/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/jigsaw/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/jigsaw/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>A place where I explore different NLP ideas about multilingual toxic comment classification.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/amaarora" title="amaarora"><svg class="svg-icon grey"><use xlink:href="/jigsaw/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/amaarora" title="amaarora"><svg class="svg-icon grey"><use xlink:href="/jigsaw/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
